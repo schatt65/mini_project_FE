@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { StyledButton } from "./styles/Shared.styled";
 import MoveHomeIcon from "../icons/MoveHomeIcon";
+import ExternalServiceLink from "./styles/ExternalServiceLink";
+import { ChevronRightIcon } from "../icons/ChevronRightIcon";
 
 const CourseGoal = () => {
   const [textInput, setTextInput] = useState("");
@@ -49,6 +51,15 @@ const CourseGoal = () => {
 
       <div>
         <MoveHomeIcon />
+        <ExternalServiceLink
+          outerIcon={<MoveHomeIcon />}
+          innerIcon={<ChevronRightIcon />}
+          linkLabel="Move home"
+          onClick={() => {
+            console.log("clicked");
+          }}
+          isNew={true}
+        />
       </div>
     </article>
   );
