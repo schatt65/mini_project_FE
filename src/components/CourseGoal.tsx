@@ -3,6 +3,7 @@ import { StyledButton } from "./styles/Shared.styled";
 import MoveHomeIcon from "../icons/MoveHomeIcon";
 import ExternalServiceLink from "./styles/ExternalServiceLink";
 import { ChevronRightIcon } from "../icons/ChevronRightIcon";
+import OnlineServicesTile from "../Common/OnlineServicesTile";
 
 const CourseGoal = () => {
   const [textInput, setTextInput] = useState("");
@@ -50,7 +51,7 @@ const CourseGoal = () => {
       <div>ar len val={arr}</div>
 
       <div>
-        <MoveHomeIcon />
+        {/* <MoveHomeIcon /> */}
         <ExternalServiceLink
           outerIcon={<MoveHomeIcon />}
           innerIcon={<ChevronRightIcon />}
@@ -60,6 +61,7 @@ const CourseGoal = () => {
           }}
           isNew={true}
         />
+        <OnlineServicesTile />
       </div>
     </article>
   );
