@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, type FC, type JSX } from "react";
 import styled from "styled-components";
 import DirectDebitIcon from "../icons/DirectDebitIcon";
 import MoveHomeIcon from "../icons/MoveHomeIcon";
 import ShowAllIcon from "../icons/ShowAllIcon";
 import { Text } from "../Common.styled";
 import Modal from "./Modal";
+import PaymentExtension from "../icons/PaymentExtension";
+import PlanInfo from "../icons/PlanInfo";
 
 const CardContainer = styled.div`
   display: flex;
@@ -58,58 +60,163 @@ const AllServiceModal = styled.div`
   width: 382px;
   height: 570px;
   padding: 24px;
-  background-color: aliceblue;
+  /* overflow-y: hidden; */
+
+  /* background-color: aliceblue; */
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
   flex-shrink: 0;
 `;
-const OnlineServicesTile = () => {
+
+const NewServices = styled.div`
+  display: flex;
+  /* width: 350px; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
+`;
+
+const TileCard = styled.div`
+  display: flex;
+  padding: 15.734px 33.198px 19px 34.469px;
+  background-color: white;
+  border-radius: 12px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9.732px;
+  flex: 1 0 0;
+  margin: 4px;
+  &:hover {
+    box-shadow: 4px 8px 2px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const Row = styled.div`
+  display: flex;
+  padding: 4px;
+  justify-content: space-between;
+`;
+interface TileType {
+  icon: FC;
+  label: string;
+  handleClick?: () => void;
+}
+//react fc
+const OnlineServicesTile: FC = () => {
   const [isAllModalOpen, setIsAllModalOpen] = useState<boolean>(false);
   const handleAllServicesClick = () => {
     setIsAllModalOpen(true);
   };
   const closeModal = () => setIsAllModalOpen(false);
+  const tilearr: TileType[] = [
+    {
+      icon: MoveHomeIcon,
+      label: "Move Home",
+      handleClick: () => console.log("clicked"),
+    },
+    {
+      icon: DirectDebitIcon,
+      label: "Direct Debit",
+      handleClick: () => console.log("clicked"),
+    },
+    {
+      icon: ShowAllIcon,
+      label: " All Services",
+      handleClick: handleAllServicesClick,
+    },
+  ];
+
+  const tileArrInModal1: TileType[] = [
+    {
+      icon: MoveHomeIcon,
+      label: "Move Home",
+      handleClick: () => console.log("clicked"),
+    },
+    {
+      icon: DirectDebitIcon,
+      label: "Direct Debit",
+      handleClick: () => console.log("clicked"),
+    },
+  ];
+
+  const tileArrInModal2: TileType[] = [
+    {
+      icon: MoveHomeIcon,
+      label: "Move Home",
+      handleClick: () => console.log("clicked"),
+    },
+    {
+      icon: DirectDebitIcon,
+      label: "Direct Debit",
+      handleClick: () => console.log("clicked"),
+    },
+    {
+      icon: PaymentExtension,
+      label: "Payment Extension",
+      handleClick: () => console.log("clicked"),
+    },
+    {
+      icon: PlanInfo,
+      label: "Plan Info",
+      handleClick: () => console.log("clicked"),
+    },
+  ];
 
   return (
     <div>
       <Wrapper>
         <CardHeading>Online Services</CardHeading>
         <TileWrapper>
-          <Tile>
-            <MoveHomeIcon />
-            <Text size="14px" weight={550} color="#196CFF">
-              Move Home
-            </Text>
-          </Tile>
-          <Tile>
-            <DirectDebitIcon />
-            <Text size="14px" weight={550} color="#196CFF">
-              Direct Debit
-            </Text>
-          </Tile>
-          <Tile onClick={handleAllServicesClick}>
-            <ShowAllIcon />
-            <Text size="14px" weight={550} color="#196CFF">
-              All Services
-            </Text>
-          </Tile>
+          {tilearr.map((tile, idx) => (
+            <Tile key={idx} onClick={tile.handleClick}>
+              {<tile.icon />}
+              <Text size="14px" weight={550} color="#196CFF">
+                {tile.label}
+              </Text>
+            </Tile>
+          ))}
         </TileWrapper>
       </Wrapper>
       {isAllModalOpen && (
         <Modal onClose={closeModal}>
           {/* <AllServiceModal>Holaaaa</AllServiceModal> */}
-          <div>Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
-          <div>Holaaa</div>
+          <AllServiceModal>
+            <CardHeading>Online Services</CardHeading>
+            <NewServices>
+              <Text size="16px" weight={600}>
+                New Services
+              </Text>
+              <Row>
+                {tileArrInModal1.map((tile, idx) => (
+                  <TileCard key={idx} onClick={tile.handleClick}>
+                    {<tile.icon />}
+                    <Text size="14px" weight={550} color="#196CFF">
+                      {tile.label}
+                    </Text>
+                  </TileCard>
+                ))}
+              </Row>
+            </NewServices>
+
+            <NewServices>
+              <Text size="16px" weight={600}>
+                Managed Services
+              </Text>
+              <Row>
+                {tileArrInModal2.map((tile, idx) => (
+                  <TileCard key={idx} onClick={tile.handleClick}>
+                    {<tile.icon />}
+                    <Text size="14px" weight={550} color="#196CFF">
+                      {tile.label}
+                    </Text>
+                  </TileCard>
+                ))}
+              </Row>
+            </NewServices>
+          </AllServiceModal>
         </Modal>
       )}
     </div>

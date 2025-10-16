@@ -23,13 +23,13 @@ const ModalContent = styled.div`
   /* display: flex;
   justify-content: center;
   align-items: center; */
-  background-color: white;
+  background-color: #e5ebea;
   border-radius: 12px;
-  box-shadow: p 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   max-width: 80%;
   max-height: 80%;
-  overflow-y: auto;
+  /* overflow-y: hidden; */
   padding: 20px;
 `;
 const CloseButton = styled.div`
