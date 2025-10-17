@@ -7,6 +7,9 @@ import { Text } from "../Common.styled";
 import Modal from "./Modal";
 import PaymentExtension from "../icons/PaymentExtension";
 import PlanInfo from "../icons/PlanInfo";
+import PopUp from "./PopUp";
+
+const MOVE_HOME_URL = "https://mongoosejs.com/docs/";
 
 const CardContainer = styled.div`
   display: flex;
@@ -107,15 +110,26 @@ interface TileType {
 //react fc
 const OnlineServicesTile: FC = () => {
   const [isAllModalOpen, setIsAllModalOpen] = useState<boolean>(false);
+  const [isMIMOModalOpen, setIsMIMOModalOpen] = useState<boolean>(false);
   const handleAllServicesClick = () => {
     setIsAllModalOpen(true);
   };
+  const handleMIMOServicesClick = () => {
+    setIsMIMOModalOpen(true);
+  };
   const closeModal = () => setIsAllModalOpen(false);
+  const closeMIMOModal = () => setIsMIMOModalOpen(false);
+  if (isAllModalOpen && isMIMOModalOpen) {
+    closeModal();
+  }
+  const handleMoveHome = () => {
+    window.location.href = MOVE_HOME_URL;
+  };
   const tilearr: TileType[] = [
     {
       icon: MoveHomeIcon,
       label: "Move Home",
-      handleClick: () => console.log("clicked"),
+      handleClick: handleMIMOServicesClick,
     },
     {
       icon: DirectDebitIcon,
@@ -133,7 +147,7 @@ const OnlineServicesTile: FC = () => {
     {
       icon: MoveHomeIcon,
       label: "Move Home",
-      handleClick: () => console.log("clicked"),
+      handleClick: handleMIMOServicesClick,
     },
     {
       icon: DirectDebitIcon,
@@ -146,7 +160,7 @@ const OnlineServicesTile: FC = () => {
     {
       icon: MoveHomeIcon,
       label: "Move Home",
-      handleClick: () => console.log("clicked"),
+      handleClick: handleMIMOServicesClick,
     },
     {
       icon: DirectDebitIcon,
@@ -219,6 +233,7 @@ const OnlineServicesTile: FC = () => {
           </AllServiceModal>
         </Modal>
       )}
+      {isMIMOModalOpen && <PopUp onClose={closeMIMOModal} />}
     </div>
   );
 };

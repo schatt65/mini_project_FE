@@ -54,7 +54,7 @@ const Modal: FC<ModalProps> = ({ onClose, children }) => {
 
   return (
     <ModalOverlay onClick={onClose}>
-      <ModalContent>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={onClose}>
           <button>&times;</button>
         </CloseButton>
