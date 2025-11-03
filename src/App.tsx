@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import styled from "styled-components";
-import BillExplainer from "./components/BillExplainer/BillExplainer";
+// import BillExplainer from "./components/BillExplainer/BillExplainer";
 
 const ContentWrapper = styled.div`
   box-sizing: border-box;

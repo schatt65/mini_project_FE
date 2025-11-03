@@ -1,13 +1,15 @@
-import React, { useState, type FC, type JSX } from "react";
+import React, { useEffect, useMemo, useState, type FC, type JSX } from "react";
 import styled from "styled-components";
-import DirectDebitIcon from "../icons/DirectDebitIcon";
-import MoveHomeIcon from "../icons/MoveHomeIcon";
-import ShowAllIcon from "../icons/ShowAllIcon";
+import DirectDebitIcon from "../icons/direct-debit.svg";
+import MoveHomeIcon from "../icons/move-home.svg";
+import ShowAllIcon from "../icons/all-service.svg";
 import { Text } from "../Common.styled";
 import Modal from "./Modal";
-import PaymentExtension from "../icons/PaymentExtension";
-import PlanInfo from "../icons/PlanInfo";
+import PaymentExtension from "../icons/payment-extensions.svg";
+import PlanInfo from "../icons/plan-info.svg";
 import PopUp from "./PopUp";
+import { useSearchParams } from "react-router-dom";
+import { LinkTile } from "./LinkTile";
 
 const MOVE_HOME_URL = "https://mongoosejs.com/docs/";
 
@@ -103,7 +105,8 @@ const Row = styled.div`
   justify-content: space-between;
 `;
 interface TileType {
-  icon: FC;
+  // icon: FC;
+  icon: string;
   label: string;
   handleClick?: () => void;
 }
@@ -111,6 +114,7 @@ interface TileType {
 const OnlineServicesTile: FC = () => {
   const [isAllModalOpen, setIsAllModalOpen] = useState<boolean>(false);
   const [isMIMOModalOpen, setIsMIMOModalOpen] = useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const handleAllServicesClick = () => {
     setIsAllModalOpen(true);
   };
@@ -138,7 +142,7 @@ const OnlineServicesTile: FC = () => {
     },
     {
       icon: ShowAllIcon,
-      label: " All Services",
+      label: "All Services",
       handleClick: handleAllServicesClick,
     },
   ];
@@ -178,25 +182,114 @@ const OnlineServicesTile: FC = () => {
       handleClick: () => console.log("clicked"),
     },
   ];
-
+  // const tilesEnabled = useMemo(
+  //   () => ({
+  //     moveHome: featureFlags[MIMO_FEATURE_FLAG] ?? false,
+  //     addEnergyService:
+  //       (featureFlags[ADD_PROPERTY_FEATURE_FLAG] ||
+  //         featureFlags[ADD_FUEL_FEATURE_FLAG]) &&
+  //       enabledServices?.addEnergyService,
+  //     concessions: enabledServices?.concessions,
+  //     directDebit:
+  //       !enabledServices?.concessions && enabledServices?.directDebit,
+  //     allServices: true,
+  //   }),
+  //   [enabledServices, featureFlags],
+  // );
+  const tilesEnabled = useMemo(
+    () => ({
+      moveHome: false,
+      addEnergyService: true,
+      concessions: true,
+      directDebit: true,
+      allServices: true,
+    }),
+    []
+  );
+  const closeModalUsingParam = () => {
+    if (searchParams.has("modal")) {
+      searchParams.delete("modal");
+      setSearchParams(searchParams, { replace: true });
+    }
+  };
+  useEffect(() => {
+    // On load, check if we need to show the add property modal
+    // const showModel =
+    //   appState.getUserDataField("addFuelRedirectMessage") ===
+    //   "SALE_FLOW_NOT_SET";
+    const showModel = true;
+    if (showModel) {
+      searchParams.set("modal", "addProperty");
+      setSearchParams(searchParams);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <Wrapper>
         <CardHeading>Online Services</CardHeading>
         <TileWrapper>
           {tilearr.map((tile, idx) => (
-            <Tile key={idx} onClick={tile.handleClick}>
-              {<tile.icon />}
-              <Text size="14px" weight={550} color="#196CFF">
+            <div key={idx}>
+              <LinkTile
+                to={tile.label === "All Services" ? "modal=allServices" : "#"}
+                src={tile.icon}
+                srcAlt={tile.label}
+                label={tile.label}
+                onClick={tile.handleClick}
+                // {til}
+              />
+              {/* <Tile key={idx} onClick={tile.handleClick}>
+               {<tile.icon />}
+               <Text size="14px" weight={550} color="#196CFF">
                 {tile.label}
-              </Text>
-            </Tile>
+               </Text>
+             </Tile> */}
+            </div>
           ))}
         </TileWrapper>
       </Wrapper>
-      {isAllModalOpen && (
+      {/* {isAllModalOpen && (
         <Modal onClose={closeModal}>
-          {/* <AllServiceModal>Holaaaa</AllServiceModal> */}
+          <AllServiceModal>
+            <CardHeading>Online Services</CardHeading>
+            <NewServices>
+              <Text size="16px" weight={600}>
+                New Services
+              </Text>
+              <Row>
+                {tileArrInModal1.map((tile, idx) => (
+                  <TileCard key={idx} onClick={tile.handleClick}>
+                    {<tile.icon />}
+                    <Text size="14px" weight={550} color="#196CFF">
+                      {tile.label}
+                    </Text>
+                  </TileCard>
+                ))}
+              </Row>
+            </NewServices>
+
+            <NewServices>
+              <Text size="16px" weight={600}>
+                Managed Services
+              </Text>
+              <Row>
+                {tileArrInModal2.map((tile, idx) => (
+                  <TileCard key={idx} onClick={tile.handleClick}>
+                    {<tile.icon />}
+                    <Text size="14px" weight={550} color="#196CFF">
+                      {tile.label}
+                    </Text>
+                  </TileCard>
+                ))}
+              </Row>
+            </NewServices>
+          </AllServiceModal>
+        </Modal>
+      )} */}
+
+      {searchParams.get("modal") === "allServices" && (
+        <Modal onClose={closeModal}>
           <AllServiceModal>
             <CardHeading>Online Services</CardHeading>
             <NewServices>
