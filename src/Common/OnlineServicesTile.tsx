@@ -115,6 +115,11 @@ const OnlineServicesTile: FC = () => {
   const [isAllModalOpen, setIsAllModalOpen] = useState<boolean>(false);
   const [isMIMOModalOpen, setIsMIMOModalOpen] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  console.log(
+    "1st searchparams value",
+    searchParams,
+    searchParams.get("modal")
+  );
   const handleAllServicesClick = () => {
     setIsAllModalOpen(true);
   };
@@ -217,7 +222,7 @@ const OnlineServicesTile: FC = () => {
     // const showModel =
     //   appState.getUserDataField("addFuelRedirectMessage") ===
     //   "SALE_FLOW_NOT_SET";
-    const showModel = true;
+    const showModel = false;
     if (showModel) {
       searchParams.set("modal", "addProperty");
       setSearchParams(searchParams);
@@ -232,7 +237,7 @@ const OnlineServicesTile: FC = () => {
           {tilearr.map((tile, idx) => (
             <div key={idx}>
               <LinkTile
-                to={tile.label === "All Services" ? "modal=allServices" : "#"}
+                to={tile.label == "All Services" ? "?modal=allServices" : "#"}
                 src={tile.icon}
                 srcAlt={tile.label}
                 label={tile.label}
@@ -289,7 +294,7 @@ const OnlineServicesTile: FC = () => {
       )} */}
 
       {searchParams.get("modal") === "allServices" && (
-        <Modal onClose={closeModal}>
+        <Modal onClose={closeModalUsingParam}>
           <AllServiceModal>
             <CardHeading>Online Services</CardHeading>
             <NewServices>
