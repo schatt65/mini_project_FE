@@ -4,12 +4,13 @@ import DirectDebitIcon from "../icons/direct-debit.svg";
 import MoveHomeIcon from "../icons/move-home.svg";
 import ShowAllIcon from "../icons/all-service.svg";
 import { Text } from "../Common.styled";
-import Modal from "./Modal";
+import ModalA from "./ModalA";
 import PaymentExtension from "../icons/payment-extensions.svg";
 import PlanInfo from "../icons/plan-info.svg";
 import PopUp from "./PopUp";
 import { useSearchParams } from "react-router-dom";
 import { LinkTile } from "./LinkTile";
+import { Modal } from "./Modal";
 
 const MOVE_HOME_URL = "https://mongoosejs.com/docs/";
 
@@ -108,7 +109,8 @@ interface TileType {
   // icon: FC;
   icon: string;
   label: string;
-  handleClick?: () => void;
+  handleClick?: any;
+  url?: string;
 }
 //react fc
 const OnlineServicesTile: FC = () => {
@@ -131,6 +133,11 @@ const OnlineServicesTile: FC = () => {
   if (isAllModalOpen && isMIMOModalOpen) {
     closeModal();
   }
+  const onOpen = () => {
+    const next = new URLSearchParams(searchParams);
+    next.set("modal", "allServices");
+    setSearchParams(next);
+  };
   const handleMoveHome = () => {
     window.location.href = MOVE_HOME_URL;
   };
@@ -138,17 +145,24 @@ const OnlineServicesTile: FC = () => {
     {
       icon: MoveHomeIcon,
       label: "Move Home",
-      handleClick: handleMIMOServicesClick,
+      // handleClick: handleMIMOServicesClick,
+      url: "#",
     },
     {
       icon: DirectDebitIcon,
       label: "Direct Debit",
-      handleClick: () => console.log("clicked"),
+      // handleClick: () => console.log("clicked"),
+      url: "#",
     },
     {
       icon: ShowAllIcon,
       label: "All Services",
-      handleClick: handleAllServicesClick,
+      // handleClick: handleAllServicesClick,
+      handleClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        onOpen();
+      },
+      url: "?modal=allServices",
     },
   ];
 
@@ -229,6 +243,7 @@ const OnlineServicesTile: FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div>
       <Wrapper>
@@ -242,7 +257,6 @@ const OnlineServicesTile: FC = () => {
                 srcAlt={tile.label}
                 label={tile.label}
                 onClick={tile.handleClick}
-                // {til}
               />
               {/* <Tile key={idx} onClick={tile.handleClick}>
                {<tile.icon />}

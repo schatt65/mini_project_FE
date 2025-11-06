@@ -23,6 +23,7 @@ let router = createBrowserRouter([
       { path: "cards", element: <Card /> },
       { path: "bill", element: <BillExplainer /> },
     ],
+    errorElement: <div>Opps Errrorrr</div>,
   },
 ]);
 
@@ -30,6 +31,7 @@ createRoot(document.getElementById("root")!).render(
   // <StrictMode>
   <ApolloProvider client={client}>
     <RouterProvider router={router} />
+    {/* <RouterProvider router={router} fallbackElement={<LoadingPage />} /> */}
   </ApolloProvider>
 
   // </StrictMode>
